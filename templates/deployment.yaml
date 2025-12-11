@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+{{- include "my-app.selectorLabels" . | nindent 4 }}
+  name: sample-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+{{- include "my-app.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+{{- include "my-app.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - image: docker.io/mxmtr86/docker-course:app
+          name: app
+          env:
+            - name: MYSQL_HOST
+              value: "sample-db.default.svc"
+            - name: MYSQL_USER
+              value: "root"
+            - name: MYSQL_PASSWORD
+              value: "secret"
+            - name: MYSQL_DB
+              value: "todos"
+      imagePullSecrets:
+        - name: mon-secret

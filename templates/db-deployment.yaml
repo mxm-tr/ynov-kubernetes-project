@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: sample-db
+  name: sample-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sample-db
+  template:
+    metadata:
+      labels:
+        app: sample-db
+    spec:
+      containers:
+        - image: docker.io/mxmtr86/docker-course:mysql
+          name: db
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: "secret"
+            - name: MYSQL_DATABASE
+              value: "todos"
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: db-storage
+      imagePullSecrets:
+        - name: mon-secret
+      volumes:
+        - name: db-storage
+          persistentVolumeClaim:
+            claimName: db-pvc
