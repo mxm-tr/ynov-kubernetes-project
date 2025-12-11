@@ -19,7 +19,7 @@ spec:
           name: app
           env:
             - name: MYSQL_HOST
-              value: "sample-db.default.svc"
+              value: "sample-db.{{ .Release.Namespace }}.svc"
             - name: MYSQL_USER
               value: "root"
             - name: MYSQL_PASSWORD
