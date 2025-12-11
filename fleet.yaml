@@ -1,0 +1,4 @@
+
+defaultNamespace: todo-list
+helm:
+  chart: ./
